@@ -13,5 +13,3 @@ A quantitative phase image saved as any indexed image format (e.g. bmp, png, jpg
 
 ## Project origin
 This is part of a larger project coined Spinning Arrayed Disk (SpAD), in which  
-
-## References

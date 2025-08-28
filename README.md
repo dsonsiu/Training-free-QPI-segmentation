@@ -12,4 +12,4 @@ QPI intrisically captures the pseudo-3D information in its contrast. This helps 
 A quantitative phase image saved as any indexed image format (e.g. bmp, png, jpg). Spatial and phase scales should be specified in the code.
 
 ## Project origin
-This is part of a larger project coined Spinning Arrayed Disk (SpAD), in which  
+This is part of a larger project coined Spinning Arrayed Disk (SpAD).

@@ -14,11 +14,11 @@ save("Example1.mat","cellImg","objInfo","labcellmask","labseedmask",'-v7.3');
 QPIdispRange = [0 0.5]; % rad
 % - Save combined mask
 combineMsk = (labcellmask > 0) + (labseedmask > 0) ;
-imwrite( ind2rgb(uint8(mat2gray(combineMsk)*size(bone,1)),bone) , 'CombinedMask.png');
+imwrite( ind2rgb(uint8(mat2gray(combineMsk)*size(bone,1)),bone) , 'CombinedMask_Eg1.png');
 % - Save overlayed cell boundary
 cellEdge = imdilate(imgradient(labcellmask)>0,strel('disk',3));
 imgOvl = overlayEdge(QPI, cmap_BluWRed, QPIdispRange, cellEdge, [1,0,0]);
-imwrite( imgOvl ,'OverlayedCellEdge.png');
+imwrite( imgOvl ,'OverlayedCellEdge_Eg1.png');
 % - Save Labeled mask
-imwrite( ind2rgb(uint8(mat2gray(labcellmask)*(size(nebula,1)+1)),[0,0,0;nebula]),'LabelMask.png');
+imwrite( ind2rgb(uint8(mat2gray(labcellmask)*(size(nebula,1)+1)),[0,0,0;nebula]),'LabelMask_Eg1.png');
 

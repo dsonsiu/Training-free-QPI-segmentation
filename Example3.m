@@ -1,3 +1,4 @@
+addpath('PhaseCut\');
 %% Load data to be segmented
 InputImg = imread('Data\\Example3.tiff');
 QPIrange = [0 2.965];

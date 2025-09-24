@@ -1,6 +1,6 @@
 addpath('PhaseCut\');
 %% Load data to be segmented
-load('Data\\SpAD_fullwell.mat');
+load('Data\\SpAD_fullwell1.mat');
 
 %% Phase cut
 tic

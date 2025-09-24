@@ -3,7 +3,6 @@ function [cellImg,objInfo,labcellmask,labseedmask] = PhaseCut(QPI,pixsz)
 Opt_clearborder = true;
 phasThrs = 0.07;        % rad; Phase threshold for masking
 SizeRange = [35 3.5e5]; % um sq; S
-DenoiseFactor = 5;      % a.u.
 MaskMargin = 20;        % um
 CellPhThres = 0.1;      % rad, Cell phase threshold
 
@@ -18,14 +17,13 @@ cellIdx = find(szcrit);
 phCellMask = ismember(labelcell,cellIdx);
 
 % ===== Texture Thresholding
-igDMap = imgradient(imgradient(imgaussfilt(QPI,DenoiseFactor),'sobel')/pixsz,'sobel')/pixsz.^(1/4);
-
-fbDMap = fibermetric(igDMap);
-dicCellMask1 = (fbDMap>0.05); % thresholding of rough structure
-dicCellMask2 = imdilate(dicCellMask1,strel("disk",10));
-dicCellMask3 = imerode(dicCellMask2,strel("disk",5));
-dicCellMask4 = bwareaopen(dicCellMask3,2000);
-dicCellMask = imcomplement(bwareaopen(imcomplement(dicCellMask4),2000)); % Fill the holes
+textMap = stdfilt(QPI,true(round(3/pixsz/2)*2+1));
+[BgText_hist,edge_hist] = histcounts(textMap(~phCellMask));
+[~,PeakText] = findpeaks(BgText_hist(2:end),'SortStr','descend','MinPeakProminence',range(BgText_hist)/100);
+textThres = edge_hist(PeakText(1))*2;
+dicCellMask1 = textMap > textThres;
+dicCellMask2 = bwareaopen(dicCellMask1,floor(350/(pixsz^2)));
+dicCellMask = imcomplement(bwareaopen(imcomplement(dicCellMask2),floor(350/(pixsz^2)))); % Fill the holes of correct sizes only
 
 % ===== Construct Composite mask
 complxMask = cat(3, dicCellMask,phCellMask);
@@ -33,7 +31,7 @@ cellMask = sum(complxMask,3) >= 1;
 
 %% Stage 2: QPI-based Watershed
 temp = bwconncomp(cellMask); fprintf('Watershed breaks %d objects into ', temp.NumObjects);
-cellMask = watershedcmask(QPI,cellMask);
+cellMask = watershedcmask(QPI,cellMask,pixsz);
 temp = bwconncomp(cellMask); fprintf('%d objects\n', temp.NumObjects); temp = [];
 if Opt_clearborder
     cellMask = imclearborder(cellMask);

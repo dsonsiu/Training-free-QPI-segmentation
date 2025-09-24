@@ -1,13 +1,15 @@
-function indvcmask = watershedcmask (QPI, cellClusMask)
+function indvcmask = watershedcmask (QPI, cellClusMask,pixsz)
+% - Define size of structural element
+StrElSz = round(4/pixsz);
 % ----- Smoothen the QPI
-smQPI=imopen(QPI,strel('disk',10));
+smQPI=imopen(QPI,strel('disk',StrElSz));
 % ----- Define masked QPI
 phasMask=imcomplement(smQPI.*cellClusMask);
 % - Force background to -inf
 phasMask(phasMask==1) = -Inf;
 % ----- Suppress peak Version2
 % - Find regional peaks
-maxRegMask = imdilate(imextendedmax(smQPI,0.01),strel('disk',10)).* QPI>0.15;
+maxRegMask = imdilate(imextendedmax(smQPI,0.01),strel('disk',StrElSz)).* QPI>0.15;
 % - Force regional peaks to -inf
 phasMask(maxRegMask) = -inf;
 % ----- Watershed

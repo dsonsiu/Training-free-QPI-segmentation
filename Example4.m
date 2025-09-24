@@ -14,7 +14,7 @@ toc
 
 %% Export data
 % ----- Save variables
-save("Example3.mat","cellImg","objInfo","labcellmask","labseedmask",'-v7.3');
+save("Example4.mat","cellImg","objInfo","labcellmask","labseedmask",'-v7.3');
 
 %% Export results in images
 QPIdispRange = [0 .35]; % rad

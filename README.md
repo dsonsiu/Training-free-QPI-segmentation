@@ -1,5 +1,9 @@
 # PhaseCut - *A training-free segmentation for Quantitative Phase Imaging (QPI)*
 
+<p align="center">
+    <img src="Img/DispImage2.png" alt="Image" width="500">
+</p>
+
 **PhaseCut** is a training-free segmentation algorithm for quantitative phase images (QPI). Leveraging the intrinsic geometry of cells, the algorithm identify individual cells from clusters by the cell cortices and textures, achieving instance segmentation in single cell precision even in densely seeded 2D culture.
 
 ## Why training-free?
